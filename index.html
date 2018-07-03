@@ -1,0 +1,59 @@
+<html ng-app='mym' ng-controller='myc' ng-init="show_data()">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+<title>Welcome</title>
+</head>
+<body>
+<h2>{{message}}</h2>
+
+<div>
+<input type="text" placeholder="enter name" ng-model="name"/><br/>
+<input type="text" placeholder="enter location" ng-model="location" /><br>
+<input type="submit" ng-model="submit"  ng-click="sub()" />
+
+
+</div>
+<br>
+<div>
+<table>
+<tr>
+<th>Name</th>
+<th>Location</th>
+</tr>
+<tr ng-repeat="d in re">
+<td>{{d.name}}</td>
+<td>{{d.location}}</td>
+</tr>
+</table>
+</div>
+
+</body>
+<script>
+angular.module('mym', []).controller('myc', function($scope, $http){
+$scope.message='Student Registration';
+
+$scope.show_data=function(){
+$http.get("db.php").success(function(data){
+//alert(data);
+$scope.re=data;
+});
+};
+
+$scope.sub=function(){
+$http.post("db.php",{'name':$scope.name,'location':$scope.location}).success(function(data){
+alert('success');
+$window.location.reload();
+
+});
+};
+});
+</script>
+<style>
+table, th, td{
+border:1px solid black;
+}
+table{
+border-collapse:collapse;
+}
+</style>
+</html>
